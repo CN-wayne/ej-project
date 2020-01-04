@@ -20,6 +20,7 @@
     <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
     <!-- /分页结束 -->
     <!-- 模态框 -->
+    
     <el-dialog
       :title="title"
       :visible.sync="visible"
