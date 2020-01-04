@@ -8,7 +8,7 @@
            <el-table-column prop="orderTime" label="下单时间" ></el-table-column>
            <el-table-column prop="total" label="总价" ></el-table-column>
            <el-table-column prop="status" label="状态" ></el-table-column>
-            <el-table-column prop="customerId" label="顾客id" ></el-table-column>
+            <el-table-column prop="customerId" label="顾客ID" ></el-table-column>
            <el-table-column prop="waiterId" label="员工ID"></el-table-column>
            <el-table-column prop="addressId" label="地址ID" ></el-table-column>
            <el-table-column fixed="right" label="操作" >
