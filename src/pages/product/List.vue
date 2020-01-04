@@ -10,11 +10,11 @@
       <el-table-column prop="name" label="产品名称"></el-table-column>
       <el-table-column prop="price" label="价格"></el-table-column>
       <el-table-column prop="description" label="描述"></el-table-column>
-      <el-table-column prop="category_id" label="所属产品"></el-table-column>
+      <el-table-column prop="categoryId" label="所属产品"></el-table-column>
       <el-table-column label="操作">
         <template v-slot="slot">
           <a href="" @click.prevent="toDeleteHandler(slot.row.id)">删除</a>
-          <a href="" @click.prevent="toUpdateHandler">修改</a>
+          <a href="" @click.prevent="toUpdateHandler(slot.row)">修改</a>
           <a href="" @click.prevent="toUpdateHandler">详情</a>
         </template>
       </el-table-column>
@@ -40,7 +40,7 @@
           <el-input v-model="form.description"></el-input>
         </el-form-item>
         <el-form-item label="所属产品">
-          <el-input v-model="form.category_id"></el-input>
+          <el-input v-model="form.categoryId"></el-input>
         </el-form-item>
       </el-form>
 
@@ -58,6 +58,9 @@
 import request from '@/utils/request'
 import querystring from 'querystring'//查询数据传，josn
 export default {
+  created(){
+    this.loadData();
+  },
   // 用于存放网页中需要调用的方法
   methods:{
     loadData(){
@@ -96,14 +99,20 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        let url="http://localhost:6677/product/deleteById?id="+id;//传参
+        request.get(url).then((response)=>{
+          //刷新数据
+          this.loadData();
         this.$message({
           type: 'success',
           message: '删除成功!'
         });
       })
-      
+      })
     },
-    toUpdateHandler(){
+    toUpdateHandler(row){
+            this.form=row;
+
       this.visible = true;
     },
     closeModalHandler(){
@@ -111,6 +120,9 @@ export default {
     },
     toAddHandler(){
       this.visible = true;
+      this.form = {
+        type:"product"
+      }
     }
   },
   // 用于存放要向网页中显示的数据
