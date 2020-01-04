@@ -151,7 +151,7 @@ export default {
         return{
             visible:false,
             // 动态模拟的数据
-            products:[],
+            address:[],
             form:{
                 type:"address"
             }
