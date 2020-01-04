@@ -120,6 +120,9 @@ export default {
     toAddHandler(){
 
       this.visible = true;
+      this.form = {
+        type:"product"
+      }
       
     }
   },

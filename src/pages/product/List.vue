@@ -120,6 +120,9 @@ export default {
     },
     toAddHandler(){
       this.visible = true;
+      this.form = {
+        type:"product"
+      }
     }
   },
   // 用于存放要向网页中显示的数据
