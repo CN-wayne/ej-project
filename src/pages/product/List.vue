@@ -9,13 +9,14 @@
       <el-table-column prop="id" label="编号"></el-table-column>
       <el-table-column prop="name" label="产品名称"></el-table-column>
       <el-table-column prop="price" label="价格"></el-table-column>
-      <el-table-column prop="description" label="描述"></el-table-column>
+      <el-table-column width="200px" prop="description" label="描述"></el-table-column>
       <el-table-column prop="categoryId" label="所属产品"></el-table-column>
+      <el-table-column width="300px" prop="photo" label="照片"></el-table-column>
+
       <el-table-column label="操作">
         <template v-slot="slot">
           <a href="" @click.prevent="toDeleteHandler(slot.row.id)">删除</a>
           <a href="" @click.prevent="toUpdateHandler(slot.row)">修改</a>
-          <a href="" @click.prevent="toUpdateHandler">详情</a>
         </template>
       </el-table-column>
     </el-table>
@@ -37,10 +38,28 @@
           <el-input  v-model="form.price"></el-input>
         </el-form-item>
         <el-form-item label="描述">
-          <el-input v-model="form.description"></el-input>
+          <el-input type="textarea" v-model="form.description"></el-input>
         </el-form-item>
-        <el-form-item label="所属产品">
-          <el-input v-model="form.categoryId"></el-input>
+        <el-form-item label="所属栏目">
+          <el-select v-model="form.categoryId">
+                <el-option 
+                    v-for="item in options" 
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                </el-option>
+            </el-select>
+        </el-form-item>
+         <el-form-item label="图片">
+          <el-upload
+            class="upload-demo"
+            action="http://134.175.154.93:6677/file/upload"
+            :file-list="fileList"
+            :on-success="uploadSuccessHandler"
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
         </el-form-item>
       </el-form>
 
@@ -60,6 +79,7 @@ import querystring from 'querystring'//查询数据传，josn
 export default {
   created(){
     this.loadData();
+    this.loadCategory();
   },
   // 用于存放网页中需要调用的方法
   methods:{
@@ -68,6 +88,19 @@ export default {
       request.get(url).then((response)=>{
         // 将查询结果设置到product中，this指向外部函数的this
         this.product = response.data;
+      })
+    },
+      uploadSuccessHandler(response){
+      let photo = "http://134.175.154.93:8888/group1/"+response.data.id
+      // 将图片地址设置到form中，便于一起提交给后台
+      this.form.photo = photo;
+    },
+    // 加载栏目信息
+    loadCategory(){
+      let url = "http://localhost:6677/category/findAll"
+      request.get(url).then((response)=>{
+        // 将查询结果设置到products中，this指向外部函数的this
+        this.options = response.data;
       })
     },
     submitHandler(){
@@ -105,7 +138,7 @@ export default {
           this.loadData();
         this.$message({
           type: 'success',
-          message: '删除成功!'
+          message: response.message
         });
       })
       })
