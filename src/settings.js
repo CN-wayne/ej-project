@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '星巴克线上预定平台',
+  title: '家洁净服务系统',
 
   /**
    * @type {boolean} true | false

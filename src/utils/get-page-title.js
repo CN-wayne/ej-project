@@ -1,6 +1,6 @@
 import defaultSettings from '@/settings'
 
-const title = defaultSettings.title || '星巴克线上预定平台'
+const title = defaultSettings.title || '家洁净服务系统'
 
 export default function getPageTitle(pageTitle) {
   if (pageTitle) {
